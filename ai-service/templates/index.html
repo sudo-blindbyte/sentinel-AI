@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sentinel AI</title>
+</head>
+<body>
+  <h1>Sentinel AI</h1>
+  <input id="input" placeholder="Enter URL or message"/>
+  <button onclick="check()">Analyze</button>
+
+  <h2 id="result"></h2>
+  <p id="reasons"></p>
+
+app.post("/check-url", (req, res) => {
+    const url = req.body.url;
+
+    let risk = 10; // default safe
+
+    if (url.includes("login") || url.includes("verify") || url.includes("bank")) {
+        risk = 80;
+    }
+
+    res.json({
+        risk: risk
+    });
+});

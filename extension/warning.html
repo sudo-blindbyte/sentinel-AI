@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>⚠️ Sentinel AI Warning</title>
+
+  <style>
+    body {
+      background: #111;
+      color: white;
+      text-align: center;
+      font-family: Arial;
+      padding: 50px;
+    }
+
+    h1 {
+      color: red;
+      font-size: 40px;
+    }
+
+    .risk {
+      font-size: 28px;
+      margin-top: 20px;
+    }
+
+    .reasons {
+      margin-top: 20px;
+      text-align: left;
+      display: inline-block;
+      font-size: 18px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>⚠️ Threat Detected</h1>
+
+<div class="risk" id="risk">Risk: ...</div>
+
+<div class="reasons" id="reasons"></div>
+
+<button onclick="goBack()">Go Back</button>
+
+<script>
+
+// Load stored data
+chrome.storage.local.get(["risk", "reasons"], function(data) {
+
+  console.log("Loaded:", data);
+
+  // Show risk
+  document.getElementById("risk").innerText =
+    "Risk Score: " + (data.risk || 0) + "%";
+
+  // Show reasons
+  let html = "<h3>Reasons:</h3><ul>";
+
+  if (data.reasons && data.reasons.length > 0) {
+    data.reasons.forEach(r => {
+      html += "<li>" + r + "</li>";
+    });
+  } else {
+    html += "<li>No specific reason</li>";
+  }
+
+  html += "</ul>";
+
+  document.getElementById("reasons").innerHTML = html;
+
+});
+
+// Go back button
+function goBack() {
+  window.history.back();
+}
+
+</script>
+
+</body>
+</html>
